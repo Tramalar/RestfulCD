@@ -6,11 +6,11 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class DataNotFoundExceptionMapper implements ExceptionMapper<DataNotFoundException> {
+public class EntryNotFoundExceptionMapper implements ExceptionMapper<EntryNotFoundException> {
 		@Override
-		public Response toResponse(DataNotFoundException ex) {
+		public Response toResponse(EntryNotFoundException ex) {
 			ErrorMessage errorMessage = new ErrorMessage(ex.getMessage(),400,"");
-			return Response.status(Status.BAD_REQUEST)
+			return Response.serverError().status(Status.BAD_REQUEST)
 					.entity(errorMessage)
 					.build();
 		}

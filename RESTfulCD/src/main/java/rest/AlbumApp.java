@@ -37,18 +37,14 @@ public class AlbumApp {
 		Album newAlbum=as.add(album);
 		String uriSelf = uriInfo.getBaseUriBuilder().path(AlbumApp.class).path(Long.toString(newAlbum.getId())).build().toString();
 		String uriAll = uriInfo.getBaseUriBuilder().path(AlbumApp.class).build().toString();
+		String uriArtist=uriInfo.getBaseUriBuilder().path(ArtistApp.class).path(Long.toString(newAlbum.getArtistId())).build().toString();
 		album.addLink(uriSelf,"self");
 		album.addLink(uriAll,"All_Albums");
+		album.addLink(uriArtist,"Artist-page");
 
 		return Response.status(Status.CREATED).entity(newAlbum).build(); 
 	}
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/albumsByArtist/{artistId}")
-	public List<Album> getAlbumsByArtist(@PathParam("artistId")long artistId){
-		return as.getAlbumsByArtist(artistId);
-	}
 	
 	@DELETE
 	@Consumes({"application/json"})
@@ -60,7 +56,6 @@ public class AlbumApp {
 	}
 
 	@GET
-	@Consumes({"application/json"})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{albumId}")
 	public Album getAlbum(@PathParam("albumId") long id){

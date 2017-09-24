@@ -22,31 +22,11 @@ public class Album
 	public void setLinks(List<Link> links) {
 		this.links = links;
 	}
-	public Album () {}
-	public Album(String artist, String album, String releaseYear, String rating) throws error.RatingFormatException {
-		this.artist=artist;
-		Artist newArtist=ArtistService.addArtist(artist);
-		this.artistId=newArtist.getId();
-		this.title=album;
-		int ratingInt=0;
-		try {
-			this.releaseYear=Integer.parseInt(releaseYear);
-		}catch(NumberFormatException e) {
-			this.releaseYear=0;
-		}
-		try {
-			ratingInt=Integer.parseInt(rating);
-		}catch (NumberFormatException e) {
-			throw new error.RatingFormatException("Rating must be an integer between 0 and 5");
 
-		}
-		if(ratingInt<0||ratingInt>5) {
-			throw new error.RatingFormatException("Rating must be an integer between 0 and 5");
-		}
-		this.rating=ratingInt;
-		newArtist.addAlbum(this);
+
+	public void setArtistId(long artistId) {
+		this.artistId = artistId;
 	}
-
 	public void addLink(String url, String rel){
 		Link link = new Link(url,rel);
 		links.add(link);
