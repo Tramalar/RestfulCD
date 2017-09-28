@@ -24,7 +24,6 @@ public class AlbumApp {
 	AlbumService as=new AlbumService();
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/")
 	public List<Album> getMsg() {
 		return as.getAlbums();
 
@@ -32,7 +31,6 @@ public class AlbumApp {
 	@POST
 	@Consumes({"application/json"})
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/")
 	public Response addAlbum(Album album, @Context UriInfo uriInfo){
 		Album newAlbum=as.add(album);
 		String uriSelf = uriInfo.getBaseUriBuilder().path(AlbumApp.class).path(Long.toString(newAlbum.getId())).build().toString();

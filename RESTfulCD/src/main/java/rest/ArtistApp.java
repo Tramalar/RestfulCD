@@ -14,7 +14,6 @@ public class ArtistApp {
 	ArtistService as=new ArtistService();
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/")
 	public List<Artist> getArtists() {
 		return ArtistService.artists;
 	}
