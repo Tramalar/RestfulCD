@@ -11,12 +11,18 @@ public class Users {
 	public Users() {
 		if(!loaded) {
 			users=new ArrayList<User>();
-			users.add(new User("user","password","user"));
-			User adm= new User("admin","password","admin");
+			users.add(new User("user","password"));
+			User adm= new User("admin","password");
 			adm.addRole("admin");
 			users.add(adm);
 			loaded=true;
 		}
+	}
+	
+	public boolean addUser(User user) {
+		if(getUser(user.getProfName())!=null)return false;
+		users.add(user);
+		return true;
 	}
 
 	public boolean userExists(String name,String pass) {

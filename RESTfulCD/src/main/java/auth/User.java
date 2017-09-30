@@ -9,11 +9,16 @@ public class User implements Principal {
 	private String password;
 	private List<String> role=new ArrayList<String>();
 
-	public User(String name, String pass, String role) {
+
+	
+	public User(String name, String password) {
 		this.profName=name;
-		this.password=pass;
-		this.role.add(role);
+		this.password=password;
+		this.role.add("user");
 	}
+	public User() {
+	}
+
 
 	@Override
 	public String getName() {

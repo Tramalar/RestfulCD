@@ -20,6 +20,7 @@ public class AuthFilter implements ContainerRequestFilter {
 	private static final String AUTHORIZATION_HEADER_PREFIX = "Basic ";
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
+		if(requestContext.getUriInfo().getAbsolutePath().toString().contains("addUser"))return;
 		Users users=new Users();
 		List<String> authHeader = requestContext.getHeaders().get(AUTHORIZATION_HEADER_KEY);
 		if (authHeader != null && authHeader.size() > 0) {
@@ -30,18 +31,30 @@ public class AuthFilter implements ContainerRequestFilter {
 			String[] uap=decodedString.split(":");
 			String username = uap[0];
 			String password = uap[1];
-			if (users.userExists(username, password)) {
-				User user = users.getUser(username);
+			User user = users.getUser(username);
+			if (user==null) {
+				abort("No such user", 401,requestContext);
+				return;	
+			}
+			else if (!users.userExists(username, password)) {
+				abort("Wrong password", 401,requestContext);
+				return;	
+			}
+			else {
 				requestContext.setSecurityContext(new MyContext(user));
-				return;
+				return;				
 			}
 		}
-		ErrorMessage errorMessage = new ErrorMessage("User cannot access the resource.", 401,
-				"http://myDocs.org");
+		abort ("Not Authorized", 401, requestContext);
+	}
+
+	private void abort(String em, int ec,ContainerRequestContext rc) {
+		ErrorMessage errorMessage = new ErrorMessage(em, ec,"");
 		Response unauthorizedStatus = Response.status(Response.Status.UNAUTHORIZED)
 				.entity(errorMessage)
 				.build();
-		requestContext.abortWith(unauthorizedStatus);
+		rc.abortWith(unauthorizedStatus);
+
 	}
 }
 
