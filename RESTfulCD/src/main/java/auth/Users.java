@@ -12,7 +12,9 @@ public class Users {
 		if(!loaded) {
 			users=new ArrayList<User>();
 			users.add(new User("user","password","user"));
-			users.add(new User("admin","password","admin"));
+			User adm= new User("admin","password","admin");
+			adm.addRole("admin");
+			users.add(adm);
 			loaded=true;
 		}
 	}
